@@ -89,3 +89,11 @@ export const authenticators = pgTable(
 export const bids = pgTable("bb_bids", {
   id: serial("id").primaryKey(),
 });
+
+export const items = pgTable("bb_item", {
+  id: serial("id").primaryKey(),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  name: text("name").notNull(),
+});

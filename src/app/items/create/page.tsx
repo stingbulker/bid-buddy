@@ -17,20 +17,17 @@ export default function CreatePage() {
           const file = formData.get("file") as File;
 
           const uploadUrl = await createUploadUrlAction(file.name, file.type);
-          const uploadFormData = new FormData();
-          uploadFormData.append("file", file);
-
+          
           await fetch(uploadUrl, {
             method: "PUT",
-            body: uploadFormData,
-            headers: {
-              "Content-Type": file.type,
-            },
+            body: file,
           });
 
-          const name = formData.get("name") as string
-          const startingPrice = parseInt(formData.get("startingPrice") as string)
-          const startingPriceInCents = Math.floor(startingPrice * 100)
+          const name = formData.get("name") as string;
+          const startingPrice = parseInt(
+            formData.get("startingPrice") as string
+          );
+          const startingPriceInCents = Math.floor(startingPrice * 100);
 
           await createItemAction({
             name,

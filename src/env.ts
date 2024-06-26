@@ -10,7 +10,9 @@ export const env = createEnv({
     CLOUDFLARE_SECRET_ACCESS_KEY: z.string().min(1),
     BUCKET_NAME: z.string().min(1),
   },
-  client: {},
+  client: {
+    NEXT_PUBLIC_BUCKET_URL: z.string().url(),
+  },
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
     DATABASE_URL: process.env.DATABASE_URL,
@@ -18,5 +20,6 @@ export const env = createEnv({
     CLOUDFLARE_ACCESS_KEY_ID: process.env.CLOUDFLARE_ACCESS_KEY_ID,
     CLOUDFLARE_SECRET_ACCESS_KEY: process.env.CLOUDFLARE_SECRET_ACCESS_KEY,
     BUCKET_NAME: process.env.BUCKET_NAME,
+    NEXT_PUBLIC_BUCKET_URL: process.env.NEXT_PUBLIC_BUCKET_URL,
   },
 })

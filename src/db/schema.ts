@@ -65,27 +65,6 @@ export const verificationTokens = pgTable(
   })
 );
 
-export const authenticators = pgTable(
-  "authenticator",
-  {
-    credentialID: text("credentialID").notNull().unique(),
-    userId: text("userId")
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
-    providerAccountId: text("providerAccountId").notNull(),
-    credentialPublicKey: text("credentialPublicKey").notNull(),
-    counter: integer("counter").notNull(),
-    credentialDeviceType: text("credentialDeviceType").notNull(),
-    credentialBackedUp: boolean("credentialBackedUp").notNull(),
-    transports: text("transports"),
-  },
-  (authenticator) => ({
-    compositePK: primaryKey({
-      columns: [authenticator.userId, authenticator.credentialID],
-    }),
-  })
-);
-
 export const bids = pgTable("bb_bids", {
   id: serial("id").primaryKey(),
 });
@@ -99,3 +78,5 @@ export const items = pgTable("bb_item", {
   fileKey: text("fileKey").notNull(),
   startingPrice: integer("startingPrice").notNull().default(0),
 });
+
+export type Item = typeof items.$inferSelect;

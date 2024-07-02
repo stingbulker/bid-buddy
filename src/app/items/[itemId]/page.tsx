@@ -9,6 +9,8 @@ import { getImageUrl } from "@/util/files";
 import { formatDistance } from "date-fns";
 import { formatToDollar } from "@/util/currency";
 import { createBidAction } from "./action";
+import { getBidsForItem } from "@/data-access/bids";
+import { getItem } from "@/data-access/items";
 
 function formatTimestamp(timestamp: Date) {
   return formatDistance(timestamp, new Date(), { addSuffix: true });
@@ -19,9 +21,7 @@ export default async function ItemPage({
 }: {
   params: { itemId: string };
 }) {
-  const item = await database.query.items.findFirst({
-    where: eq(items.id, parseInt(itemId)),
-  });
+  const item = await getItem(parseInt(itemId))
 
   if (!item) {
     return (
@@ -40,18 +40,7 @@ export default async function ItemPage({
     );
   }
 
-  const allBids = await database.query.bids.findMany({
-    where: eq(bids.itemId, parseInt(itemId)),
-    orderBy: desc(bids.id),
-    with: {
-      user: {
-        columns: {
-          image: true,
-          name: true,
-        },
-      },
-    },
-  });
+  const allBids = await getBidsForItem(item.id);
 
   const hasBids = allBids.length > 0;
 
@@ -70,6 +59,12 @@ export default async function ItemPage({
             height={400}
           />
           <div className="text-xl">
+            <div>
+              Current Bid{" "}
+              <span className="font-bold">
+                ${formatToDollar(item.currentBid)}
+              </span>
+            </div>
             <div>
               Starting Price of{" "}
               <span className="font-bold">

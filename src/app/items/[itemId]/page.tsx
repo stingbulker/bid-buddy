@@ -11,6 +11,7 @@ import { formatToDollar } from "@/util/currency";
 import { createBidAction } from "./action";
 import { getBidsForItem } from "@/data-access/bids";
 import { getItem } from "@/data-access/items";
+import { auth } from "@/auth";
 
 function formatTimestamp(timestamp: Date) {
   return formatDistance(timestamp, new Date(), { addSuffix: true });
@@ -21,7 +22,8 @@ export default async function ItemPage({
 }: {
   params: { itemId: string };
 }) {
-  const item = await getItem(parseInt(itemId))
+  const session = await auth();
+  const item = await getItem(parseInt(itemId));
 
   if (!item) {
     return (
@@ -82,9 +84,11 @@ export default async function ItemPage({
         <div className="space-y-4 flex-1">
           <div className="flex justify-between">
             <h2 className="text-2xl font-bold">Current Bids</h2>
-            <form action={createBidAction.bind(null, item.id)}>
-              <Button>Place a bid</Button>
-            </form>
+            {session && (
+              <form action={createBidAction.bind(null, item.id)}>
+                <Button>Place a bid</Button>
+              </form>
+            )}
           </div>
           {hasBids ? (
             <ul className="sapce-y-4">
@@ -111,9 +115,11 @@ export default async function ItemPage({
                 alt="Package"
               />
               <h2 className="text-2xl font-bold">No bid yet</h2>
-              <form action={createBidAction.bind(null, item.id)}>
-                <Button>Place a bid</Button>
-              </form>
+              {session && (
+                <form action={createBidAction.bind(null, item.id)}>
+                  <Button>Place a bid</Button>
+                </form>
+              )}
             </div>
           )}
         </div>

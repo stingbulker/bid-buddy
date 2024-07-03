@@ -4,7 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Header } from "./header";
 import "@knocklabs/react/dist/index.css";
-import { Providers } from "./providers";
+import { AppKnockProviders } from "./knock-providers";
 import { SessionProvider } from "next-auth/react";
 
 const fontSans = FontSans({
@@ -30,11 +30,11 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <Header />
         <SessionProvider>
-          <Providers>
+          <AppKnockProviders>
+            <Header />
             <div className="container mx-auto py-12">{children}</div>
-          </Providers>
+          </AppKnockProviders>
         </SessionProvider>
       </body>
     </html>

@@ -20,6 +20,9 @@ importers:
       '@aws-sdk/s3-request-presigner':
         specifier: ^3.600.0
         version: 3.606.0
+      '@knocklabs/node':
+        specifier: ^0.6.13
+        version: 0.6.13
       '@knocklabs/react':
         specifier: ^0.2.23
         version: 0.2.23(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -659,6 +662,10 @@ packages:
 
   '@knocklabs/client@0.10.10':
     resolution: {integrity: sha512-gmOuLYiprKfE4BpVTUF3nMyWYh7VlQ7mzugySLKriwXBWrg1XFwZXIgHvdboC308caWIf474rNsmV53x+Vgmlg==}
+
+  '@knocklabs/node@0.6.13':
+    resolution: {integrity: sha512-XA6HWxIvLiCpRt5GisTFYDZuTuyrRR34XnFwPFPXPNTO1cKQOHLkQvyy7FzAOTD6/PVj1DM2Ge9HHij+Z64Rtg==}
+    engines: {node: '>=17.5.0'}
 
   '@knocklabs/react-core@0.2.21':
     resolution: {integrity: sha512-Zyec0aKZP5b5ti0O19T9F72gppG4C+wlJNRURospInIQLHVTRNTd3dCyrATUU78zuEInvZQEOGDO+tdMyDFzIA==}
@@ -3694,6 +3701,10 @@ snapshots:
     transitivePeerDependencies:
       - debug
       - react
+
+  '@knocklabs/node@0.6.13':
+    dependencies:
+      jose: 5.6.2
 
   '@knocklabs/react-core@0.2.21(react@18.3.1)':
     dependencies:

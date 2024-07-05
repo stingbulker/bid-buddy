@@ -47,16 +47,19 @@ export async function createBidAction(itemId: number) {
     where: eq(bids.itemId, itemId),
     with: {
       user: true,
-    }
+    },
   });
 
-  const recipients:{
+  const recipients: {
     id: string;
     name: string;
     email: string;
-  }[]= [];
-  for(const bid of currentBids){
-    if (bid.userId !== userId && !recipients.find((recipient) => recipient.id === bid.userId)){
+  }[] = [];
+  for (const bid of currentBids) {
+    if (
+      bid.userId !== userId &&
+      !recipients.find((recipient) => recipient.id === bid.userId)
+    ) {
       recipients.push({
         id: bid.userId + "",
         name: bid.user.name ?? "Anonymous",
@@ -64,16 +67,23 @@ export async function createBidAction(itemId: number) {
       });
     }
   }
-  
-  if (recipients.length > 0){}
-  await knock.notify("user-placed-bid", {
-    actor: userId,
-    recipients,
-    data:{
-      itemId,
-      bidAmount: latestBidValue,
-    }
-  })
+
+  if (recipients.length > 0) {
+    await knock.workflows.trigger("user-place-bid", {
+      actor: {
+        id: String(userId),
+        name: session.user.name ?? "Anonymos",
+        email: session.user.email,
+        collection: "users",
+      },
+      recipients,
+      data: {
+        itemId,
+        bidAmount: latestBidValue,
+      },
+    });
+    console.log("hello")
+  }
 
   revalidatePath(`/items/${itemId}`);
 }

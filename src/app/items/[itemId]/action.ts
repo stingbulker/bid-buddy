@@ -80,6 +80,7 @@ export async function createBidAction(itemId: number) {
       data: {
         itemId,
         bidAmount: latestBidValue,
+        itemName: item.name,
       },
     });
     console.log("hello")
